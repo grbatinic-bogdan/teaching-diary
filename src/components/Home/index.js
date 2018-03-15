@@ -1,3 +1,12 @@
 import React from 'react';
 
-export default () => <h1>Home</h1>
+import Navigation from '../Navigation';
+
+export default () => {
+    return (
+        <div>
+            <Navigation />
+            <h1>Welcome to Teaching Diary Manager</h1>
+        </div>
+    )
+}

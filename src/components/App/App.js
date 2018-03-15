@@ -1,22 +1,16 @@
 import React, { Component } from 'react';
 
 import { BrowserRouter as Router, Route } from 'react-router-dom';
-import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 
-import rootReducer from '../../reducers';
+
 import RegisterUser from '../RegisterUser';
 import Login from '../Login';
 import Home from '../Home';
+import Logout from '../Logout';
 import { Container } from 'reactstrap';
 import { userIsAuthenticatedRedir, userIsNotAuthenticated } from '../../auth';
-
-const createStoreWithMiddleware = applyMiddleware(thunk)(createStore);
-const store = createStoreWithMiddleware(
-  rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-);
+import store from '../../store';
 
 class App extends Component {
   render() {
@@ -27,6 +21,7 @@ class App extends Component {
             <Route exact path="/" component={userIsAuthenticatedRedir(Home)} />
             <Route path="/register" component={userIsNotAuthenticated(RegisterUser)} />
             <Route path="/login" component={userIsNotAuthenticated(Login)} />
+            <Route path="/logout" component={userIsAuthenticatedRedir(Logout)} />
           </Container>
         </Router>
       </Provider>

@@ -33,7 +33,12 @@ export const login = (email, password) => {
 
             const token = request.headers.get('x-auth');
             if (token) {
-                localStorage.setItem('authToken', token);
+                const userData = {
+                    ...data,
+                    token
+                }
+                localStorage.setItem('userData', JSON.stringify(userData));
+
                 dispatch(loginAction(data));
                 dispatch(requestSuccess());
             }
@@ -42,6 +47,13 @@ export const login = (email, password) => {
             console.log(error);
             dispatch(requestFailure());
         })
+    }
+}
+
+export const logout = () => {
+    return (dispatch) => {
+        localStorage.removeItem('userData');
+        dispatch(logoutAction());
     }
 }
 
