@@ -1,5 +1,6 @@
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect';
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper';
+import connectedAuthWrapper from 'redux-auth-wrapper/connectedAuthWrapper'
 
 import store from './store';
 import { loginAction } from './modules/user/actions';
@@ -33,10 +34,14 @@ const userIsAuthenticatedDefaults = {
     wrapperDisplayName: 'UserIsAuthenticated'
 }
 
+export const userIsAuthenticated = connectedAuthWrapper(userIsAuthenticatedDefaults)
+
 export const userIsAuthenticatedRedir = connectedRouterRedirect({
     ...userIsAuthenticatedDefaults,
     redirectPath: '/login'
 });
+
+
 
 export const userIsNotAuthenticated = connectedRouterRedirect({
     redirectPath: (state, ownProps) => locationHelper.getRedirectQueryParam(ownProps) || '/',

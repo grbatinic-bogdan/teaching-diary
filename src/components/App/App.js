@@ -9,7 +9,7 @@ import Login from '../Login';
 import Home from '../Home';
 import Logout from '../Logout';
 import { Container } from 'reactstrap';
-import { userIsAuthenticatedRedir, userIsNotAuthenticated } from '../../auth';
+import { userIsAuthenticatedRedir, userIsNotAuthenticated, userIsAuthenticated } from '../../auth';
 import store from '../../store';
 
 class App extends Component {
@@ -21,7 +21,6 @@ class App extends Component {
             <Route exact path="/" component={userIsAuthenticatedRedir(Home)} />
             <Route path="/register" component={userIsNotAuthenticated(RegisterUser)} />
             <Route path="/login" component={userIsNotAuthenticated(Login)} />
-            <Route path="/logout" component={userIsAuthenticatedRedir(Logout)} />
           </Container>
         </Router>
       </Provider>

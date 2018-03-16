@@ -5,10 +5,17 @@ import {
     Nav,
     NavItem
 } from 'reactstrap';
-
+import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 
-export default class Navigation extends Component {
+import { logout } from '../../modules/user';
+
+class Navigation extends Component {
+    constructor(props) {
+        super(props);
+        this.onLogout = this.logout.bind(this);
+    }
+
     render() {
         return (
             <div>
@@ -16,11 +23,22 @@ export default class Navigation extends Component {
                     <NavbarBrand>Teaching Diary</NavbarBrand>
                     <Nav>
                         <NavItem>
-                            <Link to="/logout">Logout</Link>
+                            <a href="#" onClick={this.onLogout}>Logout</a>
                         </NavItem>
                     </Nav>
                 </Navbar>
             </div>
         )
     }
+
+    logout(event) {
+        event.preventDefault();
+        const {
+            logout
+        } = this.props;
+
+        logout();
+    }
 }
+
+export default connect(null, { logout })(Navigation);
