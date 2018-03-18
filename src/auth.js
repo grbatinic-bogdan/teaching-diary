@@ -10,7 +10,7 @@ const locationHelper = locationHelperBuilder({});
 const userIsAuthenticatedDefaults = {
     //authenticatedSelector: state => localStorage.getItem('userData') !== null,
     authenticatedSelector: state => {
-        const hasUserState = state.user !== null;
+        const hasUserState = state.user.data !== null;
         let userData = localStorage.getItem('userData');
 
         if (!hasUserState && userData !== null) {

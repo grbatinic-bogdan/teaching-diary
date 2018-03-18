@@ -1,4 +1,6 @@
 import { handleActions } from 'redux-actions';
+import { reset } from 'redux-form';
+import { combineReducers } from 'redux';
 
 import {
     requestStart,
@@ -10,7 +12,8 @@ import api from '../../services/api';
 
 import {
     loginAction,
-    logoutAction
+    logoutAction,
+    registerAction
 } from './actions';
 
 export const login = (email, password) => {
@@ -57,7 +60,44 @@ export const logout = () => {
     }
 }
 
-export const reducer = handleActions({
+export const register = (payload) => {
+    return (dispatch) => {
+        dispatch(requestStart());
+
+        api(
+            'users',
+            'POST',
+            payload,
+            false
+        )
+        .then((response) => {
+            dispatch(requestSuccess());
+            const {
+                data
+            } = response;
+            return data;
+        })
+        .then((data) => {
+            dispatch(registerAction(data));
+            dispatch(reset('register'));
+        })
+        .catch((error) => {
+            dispatch(requestFailure());
+        })
+    }
+}
+
+const registerReducer = handleActions({
+    [registerAction](state, payload) {
+        return {
+            hasRegistered: true
+        };
+    },
+}, {
+    hasRegistered: false
+});
+
+export const userReducer = handleActions({
     [loginAction](state, {payload: { email, firstName, lastName } }) {
         return {
             email,
@@ -69,3 +109,8 @@ export const reducer = handleActions({
         return null
     }
 }, null);
+
+export const reducer = combineReducers({
+    data: userReducer,
+    register: registerReducer
+})

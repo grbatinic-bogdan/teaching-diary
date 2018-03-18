@@ -4,7 +4,7 @@ import { Field, Form } from 'redux-form';
 import { Button, FormGroup, Label, Input, FormText } from 'reactstrap';
 //import {  } from 'redux-form';
 
-const RenderField = (props) => {
+const renderField = (props) => {
     const {
         input,
         meta: {
@@ -29,10 +29,10 @@ export default class LoginForm extends React.Component {
                 <h1>Login</h1>
                 <form onSubmit={handleSubmit}>
                     <FormGroup>
-                        <Field name="email" component={RenderField} type="email" placeholder="someone@email.com" />
+                        <Field name="email" component={renderField} type="email" placeholder="someone@email.com" />
                     </FormGroup>
                     <FormGroup>
-                        <Field name="password" component={RenderField} type="password" placeholder="mysecretpassword" />
+                        <Field name="password" component={renderField} type="password" placeholder="mysecretpassword" />
                     </FormGroup>
                     <FormGroup>
                         <Button>Login</Button>
