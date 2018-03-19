@@ -3,7 +3,8 @@ import {
     Navbar,
     NavbarBrand,
     Nav,
-    NavItem
+    NavItem,
+    NavLink,
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
@@ -19,11 +20,11 @@ class Navigation extends Component {
     render() {
         return (
             <div>
-                <Navbar>
+                <Navbar color="faded" light expand="md">
                     <NavbarBrand>Teaching Diary</NavbarBrand>
-                    <Nav>
+                    <Nav className="ml-auto" navbar>
                         <NavItem>
-                            <a href="#" onClick={this.onLogout}>Logout</a>
+                            <NavLink href="#" onClick={this.onLogout}>Logout</NavLink>
                         </NavItem>
                     </Nav>
                 </Navbar>

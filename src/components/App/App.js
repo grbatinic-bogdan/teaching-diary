@@ -7,7 +7,6 @@ import { Provider } from 'react-redux';
 import RegisterUser from '../RegisterUser';
 import Login from '../Login';
 import Home from '../Home';
-import Logout from '../Logout';
 import { Container } from 'reactstrap';
 import { userIsAuthenticatedRedir, userIsNotAuthenticated, userIsAuthenticated } from '../../auth';
 import store from '../../store';
