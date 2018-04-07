@@ -1,6 +1,7 @@
+import React from 'react';
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect';
 import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper';
-import connectedAuthWrapper from 'redux-auth-wrapper/connectedAuthWrapper'
+import connectedAuthWrapper from 'redux-auth-wrapper/connectedAuthWrapper';
 
 import store from './store';
 import { loginAction } from './modules/user/actions';
@@ -48,4 +49,10 @@ export const userIsNotAuthenticated = connectedRouterRedirect({
     allowRedirectBack: false,
     authenticatedSelector: state => localStorage.getItem('userData') === null,
     wrapperDisplayName: 'UserIsNotAuthenticated'
-})
+});
+
+export const visibleAuthenticated = connectedAuthWrapper({
+    authenticatedSelector: state => localStorage.getItem('userData') !== null,
+    wrapperDisplayName: 'AuthenticatedOrEmpty',
+    FailureComponent: () => <div></div>
+  })

@@ -32,7 +32,6 @@ class TimeEntryList extends Component {
             <div>
                 <h3>Your previous time entries:</h3>
                 <List timeEntries={timeEntries} />
-                <Link to="/new/time-entry">Add new time entry</Link>
             </div>
         )
     }
