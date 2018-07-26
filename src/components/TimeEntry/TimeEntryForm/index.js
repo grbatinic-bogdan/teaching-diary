@@ -4,8 +4,9 @@ import { FormGroup, Input, Button, Label, Row, Col } from 'reactstrap';
 import { Field } from 'redux-form'
 
 import renderField from '../../../services/formFieldRenderer';
+import PlacesLookup from '../PlacesLookup';
 
-export default ({handleSubmit}) => {
+export default ({handleSubmit, timeMaxDate}) => {
     return (
         <form onSubmit={handleSubmit}>
             <FormGroup>
@@ -14,7 +15,7 @@ export default ({handleSubmit}) => {
             </FormGroup>
             <FormGroup>
                 <Label>Date</Label>
-                <Field name="time" type="date" component={renderField} />
+                <Field name="time" type="date" component={renderField} max={timeMaxDate} />
             </FormGroup>
             <Row>
                 <Col>
@@ -35,7 +36,7 @@ export default ({handleSubmit}) => {
             </Row>
             <FormGroup>
                 <Label>Location</Label>
-                <Field name="locationsearch" type="text" component={renderField} />
+                <Field name="locationAddress" type="text" component={PlacesLookup} updateField="location" />
             </FormGroup>
             <FormGroup check>
                 <Label check>
@@ -58,6 +59,7 @@ export default ({handleSubmit}) => {
             <FormGroup>
                 <Button>Save</Button>
             </FormGroup>
+            <Field name="location" type="hidden" component="input" />
         </form>
     )
 }
