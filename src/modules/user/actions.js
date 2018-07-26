@@ -1,4 +1,4 @@
-import { createActions, createAction } from 'redux-actions';
+import { createAction } from 'redux-actions';
 
 const LOGIN = 'LOGIN';
 const LOGOUT = 'LOGOUT';

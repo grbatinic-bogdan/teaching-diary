@@ -5,7 +5,12 @@ export default (path, method, body = null, authenticate = true) => {
         'content-type': 'application/json'
     };
     if (authenticate) {
-        const token = localStorage.getItem('authToken');
+        const userData = JSON.parse(localStorage.getItem('userData'));
+        if (!userData) {
+            throw new Error('User data not set');
+        }
+        const token = userData.token;
+        //const token = localStorage.getItem('authToken');
         if (!token) {
             throw new Error('Token not found in storage');
         }
