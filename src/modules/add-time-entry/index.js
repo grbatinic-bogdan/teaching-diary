@@ -2,29 +2,29 @@ import { handleActions, combineActions } from 'redux-actions';
 
 import api from '../../services/api';
 import { requestStart, requestSuccess, requestFailure } from '../common/actions';
-import { resetAddTimeEntry } from './actions';
+import { resetAddTimeEntry, saveTimeEntryStart, saveTimeEntrySuccess, saveTimeEntryFailure } from './actions';
 
 const initState = {
     request: false,
-    savedTimeEntry: false,
+    savedTimeEntry: true,
 };
 
 
 export const addTimeEntryReducer = handleActions({
-    [requestStart](state) {
+    [saveTimeEntryStart](state) {
         return {
             ...state,
             request: true
         }
     },
-    [requestSuccess](state) {
+    [saveTimeEntrySuccess](state) {
         return {
             ...state,
             request: false,
             savedTimeEntry: true
         }
     },
-    [requestFailure](state) {
+    [saveTimeEntryFailure](state) {
         return {
             ...state,
             request: false,
@@ -42,17 +42,17 @@ export const addTimeEntryReducer = handleActions({
 
 export const saveNewTimeEntry = (body) => {
     return (dispatch) => {
-        dispatch(requestStart());
+        dispatch(saveTimeEntryStart());
         api(
             'time-entry',
             'POST',
             body
         )
         .then((response) => {
-            dispatch(requestSuccess());
+            dispatch(saveTimeEntrySuccess());
         })
         .catch((error) => {
-            dispatch(requestFailure());
+            dispatch(saveTimeEntryFailure());
         })
     }
 }
