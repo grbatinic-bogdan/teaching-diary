@@ -67,6 +67,12 @@ class AddTimeEntry extends Component {
             ...values,
             duration: durationSeconds
         };
+
+        const { location: locationJSON } = values;
+        if (locationJSON !== '') {
+            payload.location = JSON.parse(locationJSON);
+        }
+
         console.log(payload);
         const { saveNewTimeEntry } = this.props;
         saveNewTimeEntry(payload);
