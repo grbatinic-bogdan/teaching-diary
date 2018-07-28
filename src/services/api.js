@@ -1,11 +1,13 @@
 export default (path, method, body = null, authenticate = true) => {
     const apiBaseUri = 'http://localhost:8000/';
+    const appBaseUri = 'http://localhost:3000/';
 
     const headers = {
         'content-type': 'application/json'
     };
+    const localStorageSessionKey = 'userData';
     if (authenticate) {
-        const userData = JSON.parse(localStorage.getItem('userData'));
+        const userData = JSON.parse(localStorage.getItem(localStorageSessionKey));
         if (!userData) {
             throw new Error('User data not set');
         }
@@ -30,7 +32,7 @@ export default (path, method, body = null, authenticate = true) => {
     })
     .then((response) => {
         if (!response.ok) {
-            return Promise.reject('Failed request');
+            return Promise.reject(response);
         }
 
         return Promise.all([
@@ -45,6 +47,15 @@ export default (path, method, body = null, authenticate = true) => {
         };
     })
     .catch((error) => {
-        return Promise.reject(error.message);
+        if (!error instanceof Response) {
+            throw new Error('Invalid argument');
+        }
+
+        if (error.status === 401) {
+            // unauthorized, remove session data and redirect to homepage
+            localStorage.removeItem(localStorageSessionKey);
+            window.location = appBaseUri;
+        }
+        return Promise.reject(error);
     });
 }
