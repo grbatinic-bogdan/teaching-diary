@@ -1,14 +1,22 @@
 import { handleActions, combineActions } from 'redux-actions';
 
 import api from '../../services/api';
-import { requestStart, requestSuccess, requestFailure } from '../common/actions';
-import { resetAddTimeEntry, saveTimeEntryStart, saveTimeEntrySuccess, saveTimeEntryFailure } from './actions';
 
-const initState = {
+import {
+    resetAddTimeEntry,
+    saveTimeEntryStart,
+    saveTimeEntrySuccess,
+    saveTimeEntryFailure,
+} from './actions';
+
+/**
+ * REDUCERS
+ */
+
+const addTimeEntryInitState = {
     request: false,
     savedTimeEntry: true,
 };
-
 
 export const addTimeEntryReducer = handleActions({
     [saveTimeEntryStart](state) {
@@ -37,9 +45,11 @@ export const addTimeEntryReducer = handleActions({
             savedTimeEntry: false
         };
     }
-}, initState);
+}, addTimeEntryInitState);
 
-
+/**
+ * THUNKS
+ */
 export const saveNewTimeEntry = (body) => {
     return (dispatch) => {
         dispatch(saveTimeEntryStart());
@@ -56,9 +66,3 @@ export const saveNewTimeEntry = (body) => {
         })
     }
 }
-
-/*
-export const addTimeEntryReducer = (state = { request: false, savedTimeEntry: false }, action) => {
-    return state
-}
-*/

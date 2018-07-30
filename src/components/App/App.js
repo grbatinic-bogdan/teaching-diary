@@ -8,6 +8,7 @@ import RegisterUser from '../RegisterUser';
 import Login from '../Login';
 import Home from '../Home';
 import AddTimeEntry from '../TimeEntry/AddTimeEntry';
+import EditTimeEntry from '../TimeEntry/EditTimeEntry';
 import { Container } from 'reactstrap';
 import { userIsAuthenticatedRedir, userIsNotAuthenticated, userIsAuthenticated, visibleAuthenticated } from '../../auth';
 import store from '../../store';
@@ -25,6 +26,7 @@ class App extends Component {
             <Route path="/register" component={userIsNotAuthenticated(RegisterUser)} />
             <Route path="/login" component={userIsNotAuthenticated(Login)} />
             <Route exact path="/new-time-entry" component={userIsAuthenticatedRedir(AddTimeEntry)} />
+            <Route exact path="/edit-time-entry/:id" component={userIsAuthenticatedRedir(EditTimeEntry)} />
           </Container>
         </Router>
       </Provider>
