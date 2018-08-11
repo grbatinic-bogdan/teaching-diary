@@ -5,7 +5,6 @@ import { combineReducers } from 'redux';
 import {
     requestStart,
     requestSuccess,
-    requestEnd,
     requestFailure
 } from '../common/actions';
 import api from '../../services/api';

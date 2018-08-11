@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 
@@ -10,7 +10,7 @@ import Home from '../Home';
 import AddTimeEntry from '../TimeEntry/AddTimeEntry';
 import EditTimeEntry from '../TimeEntry/EditTimeEntry';
 import { Container } from 'reactstrap';
-import { userIsAuthenticatedRedir, userIsNotAuthenticated, userIsAuthenticated, visibleAuthenticated } from '../../auth';
+import { userIsAuthenticatedRedir, userIsNotAuthenticated, visibleAuthenticated } from '../../auth';
 import store from '../../store';
 import Navigation from '../Navigation';
 

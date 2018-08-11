@@ -34,7 +34,7 @@ class AddTimeEntry extends Component {
                 <div>
                     <h2>Successfully saved new time entry.</h2>
                     <p>
-                        <a href="javascript:void(0)" onClick={resetAddTimeEntry}>Add new</a>
+                        <a href={`javascript:void(0)`} onClick={resetAddTimeEntry}>Add new</a>
                     </p>
                     <p>
                         <Link to="/" onClick={this.handleHomeLinkClick}>Head back home</Link>

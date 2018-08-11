@@ -7,7 +7,6 @@ import {
     NavLink,
 } from 'reactstrap';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom'
 
 import { logout } from '../../modules/user';
 

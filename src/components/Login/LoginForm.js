@@ -1,17 +1,11 @@
 import React from 'react';
 
-import { Field, Form } from 'redux-form';
-import { Button, FormGroup, Label, Input, FormText } from 'reactstrap';
-//import {  } from 'redux-form';
+import { Field } from 'redux-form';
+import { Button, FormGroup, Input } from 'reactstrap';
 
 const renderField = (props) => {
     const {
         input,
-        meta: {
-            touched,
-            error,
-            warning
-        },
         ...custom
     } = props;
 
