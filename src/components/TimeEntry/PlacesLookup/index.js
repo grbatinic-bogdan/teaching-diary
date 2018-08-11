@@ -63,7 +63,6 @@ export default class PlacesLookup extends Component {
         const {
             input: {
                 value,
-                onChange
             }
         } = this.props;
 
