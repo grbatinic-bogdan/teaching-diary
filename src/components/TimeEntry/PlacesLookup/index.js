@@ -10,6 +10,24 @@ export default class PlacesLookup extends Component {
         super(props);
 
         this.onValueSelect = this.handleValueSelect.bind(this);
+        this.onChange = this.handleChange.bind(this);
+    }
+
+    handleChange(value) {
+        const {
+            meta,
+            updateField,
+            input: {
+                onChange
+            }
+        } = this.props;
+        if (value === '') {
+            meta.dispatch(
+                change(meta.form, updateField, '')
+            );
+        }
+
+        onChange(value);
     }
 
     handleValueSelect(address, placeId) {
@@ -50,7 +68,7 @@ export default class PlacesLookup extends Component {
         } = this.props;
 
         return (
-            <PlacesAutocomplete value={value} onChange={onChange} onSelect={this.onValueSelect}>
+            <PlacesAutocomplete value={value} onChange={this.onChange} onSelect={this.onValueSelect}>
                 {({getInputProps, getSuggestionItemProps, suggestions}) => (
                     <div className="input-container">
                         <Input { ...getInputProps() } />
