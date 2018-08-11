@@ -4,7 +4,10 @@ import api from '../../services/api';
 import {
     getTimeEntryStart,
     getTimeEntrySuccess,
-    getTimeEntryFailure
+    getTimeEntryFailure,
+    updateTimeEntryStart,
+    updateTimeEntrySuccess,
+    updateTimeEntryFailure
 } from './actions';
 
 const editTimeEntryInitState = {
@@ -26,6 +29,25 @@ export const editTimeEntryReducer = handleActions({
             getRequest: false,
             timeEntry: payload
         }
+    },
+    [updateTimeEntryStart](state) {
+        return {
+            ...state,
+            saveRequest: true
+        }
+    },
+    [updateTimeEntrySuccess] (state, { payload }) {
+        return {
+            ...state,
+            saveRequest: false,
+            timeEntry: payload
+        }
+    },
+    [updateTimeEntryFailure] (state) {
+        return {
+            ...state,
+            saveRequest: false
+        }
     }
 }, editTimeEntryInitState);
 
@@ -38,12 +60,32 @@ export const getTimeEntryById = (id) => {
             'GET',
         )
         .then((payload) => {
-            const { data } = payload
+            const { data } = payload;
             dispatch(getTimeEntrySuccess(data));
         })
         .catch((error) => {
             dispatch(getTimeEntryFailure(error))
         })
         ;
+    }
+}
+
+export const updateTimeEntry = (id, body) => {
+    return (dispatch) => {
+        dispatch(updateTimeEntryStart());
+
+        api(
+            `time-entry/${id}`,
+            'PUT',
+            body
+        )
+        .then((payload) => {
+            const { data } = payload;
+            dispatch(updateTimeEntrySuccess(data));
+        })
+        .catch((error) => {
+            // handle the error
+            dispatch(updateTimeEntryFailure('Unable to save time entry'));
+        })
     }
 }

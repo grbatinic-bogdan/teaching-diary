@@ -78,7 +78,6 @@ class AddTimeEntry extends Component {
             payload.location = JSON.parse(locationJSON);
         }
 
-        console.log(payload);
         const { saveNewTimeEntry } = this.props;
         saveNewTimeEntry(payload);
     }
