@@ -56,7 +56,7 @@ export const createTimeEntryPayload = (values) => {
 
 const addTimeEntryInitState = {
     request: false,
-    savedTimeEntry: true,
+    savedTimeEntry: false,
 };
 
 export const addTimeEntryReducer = handleActions({
