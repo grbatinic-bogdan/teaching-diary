@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormGroup, Input, Button, Label } from 'reactstrap';
+import { FormGroup, Button, Label } from 'reactstrap';
 import { Field } from 'redux-form'
 
 import renderField from '../../services/formFieldRenderer';

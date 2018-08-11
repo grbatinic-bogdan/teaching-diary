@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import PlacesAutocomplete, { geocodeByPlaceId, getLatLng } from 'react-places-autocomplete';
+import PlacesAutocomplete, { geocodeByPlaceId } from 'react-places-autocomplete';
 import { Input } from 'reactstrap';
 import { change } from 'redux-form';
 import './style.css';

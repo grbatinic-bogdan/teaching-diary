@@ -1,8 +1,6 @@
 import { handleActions } from 'redux-actions';
 
-import { getTimeEntriesAction } from './actions';
 import { normalizeTimeEntries } from './normalizr';
-import { requestStart, requestFailure, requestEnd, requestSuccess } from '../common/actions';
 import { getTimeEntriesStart, getTimeEntriesSuccess, getTimeEntriesFailure } from './actions';
 import api from '../../services/api';
 

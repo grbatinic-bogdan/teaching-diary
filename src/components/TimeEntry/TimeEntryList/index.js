@@ -1,15 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 
 import { getTimeEntries } from '../../../modules/time-entry/index';
 import List from './List';
 
 class TimeEntryList extends Component {
-
-    constructor(props) {
-        super(props);
-    }
 
     componentDidMount() {
         this.props.getTimeEntries();

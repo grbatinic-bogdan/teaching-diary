@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { FormGroup, Input, Button, Label, Row, Col } from 'reactstrap';
+import { FormGroup, Button, Label, Row, Col } from 'reactstrap';
 import { Field } from 'redux-form'
 
 import renderField from '../../../services/formFieldRenderer';
@@ -75,7 +75,7 @@ export default class TimeEntryForm extends Component {
 
     timeFormatChange(event) {
         const currentDuration = this.durationRef.current.value;
-        if (currentDuration === '') {
+        if (!currentDuration) {
             return;
         }
         const changedToHours = event.target.value === 'hours';
