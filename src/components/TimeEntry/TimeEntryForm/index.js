@@ -27,7 +27,7 @@ export default ({handleSubmit, timeMaxDate}) => {
                 <Col>
                     <FormGroup>
                         <Label style={{visibility: 'hidden'}}>Units</Label>
-                        <Field name="timeformat" type="select" component={renderField}>
+                        <Field name="timeFormat" type="select" component={renderField}>
                             <option value="minutes">minutes</option>
                             <option value="hours">hours</option>
                         </Field>

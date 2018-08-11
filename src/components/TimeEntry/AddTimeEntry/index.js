@@ -15,6 +15,7 @@ class AddTimeEntry extends Component {
         super(props);
         this.handleSubmit = this.onSubmit.bind(this);
         this.handleValidation = this.validate.bind(this);
+        this.handleHomeLinkClick = this.headHomeClick.bind(this);
     }
 
     render() {
@@ -36,7 +37,7 @@ class AddTimeEntry extends Component {
                         <a href="javascript:void(0)" onClick={resetAddTimeEntry}>Add new</a>
                     </p>
                     <p>
-                        <Link to="/">Head back home</Link>
+                        <Link to="/" onClick={this.handleHomeLinkClick}>Head back home</Link>
                     </p>
                 </div>
             )
@@ -57,6 +58,10 @@ class AddTimeEntry extends Component {
         );
     }
 
+    headHomeClick() {
+        this.props.resetAddTimeEntry();
+    }
+
     onSubmit(values) {
         const minutesSelected = values.timeFormat === 'minutes';
         //const { duration: rawDuration } = parseFloat;
@@ -73,7 +78,6 @@ class AddTimeEntry extends Component {
             payload.location = JSON.parse(locationJSON);
         }
 
-        console.log(payload);
         const { saveNewTimeEntry } = this.props;
         saveNewTimeEntry(payload);
     }

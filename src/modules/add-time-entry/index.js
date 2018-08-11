@@ -1,30 +1,79 @@
 import { handleActions, combineActions } from 'redux-actions';
 
 import api from '../../services/api';
-import { requestStart, requestSuccess, requestFailure } from '../common/actions';
-import { resetAddTimeEntry } from './actions';
 
-const initState = {
+import {
+    resetAddTimeEntry,
+    saveTimeEntryStart,
+    saveTimeEntrySuccess,
+    saveTimeEntryFailure,
+} from './actions';
+
+export const validateTimeEntry = (values) => {
+    const errors = {};
+    const {
+        name,
+        time,
+        duration
+    } = values;
+
+    if (!name) {
+        errors.name = 'Name is required';
+    }
+
+    if (!time) {
+        errors.time = 'Time is required';
+    }
+
+    if (!duration) {
+        errors.duration = 'Duration is required';
+    }
+
+    return errors;
+}
+
+export const createTimeEntryPayload = (values) => {
+    const minutesSelected = values.timeFormat === 'minutes';
+
+    const durationSeconds = (minutesSelected) ? values.duration * 60 : values.duration * 60 * 60;
+
+    const payload = {
+        ...values,
+        duration: durationSeconds
+    };
+
+    const { location: locationJSON } = values;
+    if (locationJSON !== '') {
+        payload.location = JSON.parse(locationJSON);
+    }
+
+    return payload;
+}
+
+/**
+ * REDUCERS
+ */
+
+const addTimeEntryInitState = {
     request: false,
     savedTimeEntry: false,
 };
 
-
 export const addTimeEntryReducer = handleActions({
-    [requestStart](state) {
+    [saveTimeEntryStart](state) {
         return {
             ...state,
             request: true
         }
     },
-    [requestSuccess](state) {
+    [saveTimeEntrySuccess](state) {
         return {
             ...state,
             request: false,
             savedTimeEntry: true
         }
     },
-    [requestFailure](state) {
+    [saveTimeEntryFailure](state) {
         return {
             ...state,
             request: false,
@@ -37,28 +86,24 @@ export const addTimeEntryReducer = handleActions({
             savedTimeEntry: false
         };
     }
-}, initState);
+}, addTimeEntryInitState);
 
-
+/**
+ * THUNKS
+ */
 export const saveNewTimeEntry = (body) => {
     return (dispatch) => {
-        dispatch(requestStart());
+        dispatch(saveTimeEntryStart());
         api(
             'time-entry',
             'POST',
             body
         )
         .then((response) => {
-            dispatch(requestSuccess());
+            dispatch(saveTimeEntrySuccess());
         })
         .catch((error) => {
-            dispatch(requestFailure());
+            dispatch(saveTimeEntryFailure());
         })
     }
 }
-
-/*
-export const addTimeEntryReducer = (state = { request: false, savedTimeEntry: false }, action) => {
-    return state
-}
-*/

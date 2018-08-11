@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment';
 import { ListGroup, ListGroupItem } from 'reactstrap';
+import { Link } from 'react-router-dom';
 
 
 export default ({timeEntries: {result, entities}}) => {
@@ -22,11 +23,12 @@ export default ({timeEntries: {result, entities}}) => {
                     const timeFormat = time.format('DD.MM.YYYY');
                     return (
                         <ListGroupItem key={timeEntryId}>
-                            <h3>{timeEntry.name}</h3>
+                            <Link to={`/edit-time-entry/${timeEntryId}`}>
+                                <h3>{timeEntry.name}</h3>
+                            </Link>
                             <p>
                                 {timeFormat} {hasLocation && ` @ ${location.address}`}
                             </p>
-
                         </ListGroupItem>
                     )
                 })}
