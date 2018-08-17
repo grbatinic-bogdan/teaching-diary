@@ -7,13 +7,23 @@ import {
     getTimeEntryFailure,
     updateTimeEntryStart,
     updateTimeEntrySuccess,
-    updateTimeEntryFailure
+    updateTimeEntryFailure,
+    toggleDeleteTimeEntry,
+    deleteTimeEntryStart,
+    deleteTimeEntrySuccess,
+    deleteTimeEntryFailure,
 } from './actions';
+
+import {
+    getTimeEntriesStart
+} from '../time-entry/actions';
 
 const editTimeEntryInitState = {
     getRequest: false,
     saveRequest: false,
-    timeEntry: null
+    timeEntry: null,
+    isDelete: false,
+    deleted: false
 };
 
 export const editTimeEntryReducer = handleActions({
@@ -47,6 +57,39 @@ export const editTimeEntryReducer = handleActions({
         return {
             ...state,
             saveRequest: false
+        }
+    },
+    [toggleDeleteTimeEntry] (state) {
+        return {
+            ...state,
+            isDelete: !state.isDelete
+        }
+    },
+    [deleteTimeEntryStart] (state) {
+        return {
+            ...state,
+            isDelete: false
+        }
+    },
+    [deleteTimeEntrySuccess] (state) {
+        return {
+            ...state,
+            deleted: true,
+            isDelete: false
+        }
+    },
+    [deleteTimeEntryFailure] (state) {
+        return {
+            ...state,
+            deleted: false,
+            isDelete: false
+        }
+    },
+    [getTimeEntriesStart] (state) {
+        return {
+            ...state,
+            deleted: false,
+            isDelete: false
         }
     }
 }, editTimeEntryInitState);
@@ -86,6 +129,23 @@ export const updateTimeEntry = (id, body) => {
         .catch((error) => {
             // handle the error
             dispatch(updateTimeEntryFailure('Unable to save time entry'));
+        })
+    }
+}
+
+export const deleteTimeEntry = (id) => {
+    return (dispatch) => {
+        dispatch(deleteTimeEntryStart());
+
+        api(
+            `time-entry/${id}`,
+            'DELETE'
+        )
+        .then(() => {
+            dispatch(deleteTimeEntrySuccess());
+        })
+        .catch((error) => {
+            dispatch(deleteTimeEntryFailure('Failed to remove time entry'));
         })
     }
 }
