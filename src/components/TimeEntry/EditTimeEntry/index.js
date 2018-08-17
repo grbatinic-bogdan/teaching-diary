@@ -2,8 +2,11 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { reduxForm } from 'redux-form';
 import moment from 'moment';
+import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
+import { Redirect } from 'react-router-dom';
 
-import { getTimeEntryById, updateTimeEntry } from '../../../modules/edit-time-entry';
+import { getTimeEntryById, updateTimeEntry, deleteTimeEntry } from '../../../modules/edit-time-entry';
+import { toggleDeleteTimeEntry } from '../../../modules/edit-time-entry/actions';
 import TimeEntryForm from '../TimeEntryForm';
 import { validateTimeEntry, createTimeEntryPayload } from '../../../modules/add-time-entry';
 
@@ -13,6 +16,8 @@ class EditTimeEntry extends Component {
         super(props);
         this.handleSubmit = this.onSubmit.bind(this);
         this.handleValidation = validateTimeEntry.bind(this);
+        this.handleToggleDeleteTimeEntry = this.toggleDeleteTimeEntry.bind(this);
+        this.handleDeleteTimeEntry = this.deleteTimeEntry.bind(this);
     }
 
     componentDidMount() {
@@ -32,15 +37,21 @@ class EditTimeEntry extends Component {
         const {
             timeEntry,
             getRequest,
-            saveRequest
+            saveRequest,
+            isDelete,
+            toggleDeleteTimeEntry,
+            deleted
         } = this.props;
 
+        const isSaving = saveRequest && getRequest === false;
+        const shouldShowForm = (getRequest === false && saveRequest === false && timeEntry !== null && deleted === false);
+        const isDeleted = deleted
 
-        if (saveRequest && getRequest === false) {
+        if (isSaving) {
             return <h1>Saving...</h1>
         }
 
-        if (getRequest === false && saveRequest === false && timeEntry !== null) {
+        if (shouldShowForm) {
             const locationAddress = (timeEntry.location) ? timeEntry.location.address : null;
             const location = (timeEntry.location) ? JSON.stringify(timeEntry.location) : null;
             const time = moment(timeEntry.time).format('YYYY-MM-DD');
@@ -62,8 +73,25 @@ class EditTimeEntry extends Component {
             const timeMaxDate = moment().format('YYYY-MM-DD');
 
             return (
-                <Form onSubmit={this.handleSubmit} timeMaxDate={timeMaxDate} />
+                <div>
+                    <Form onSubmit={this.handleSubmit} timeMaxDate={timeMaxDate} />
+                    <Button color="danger" onClick={this.handleToggleDeleteTimeEntry}>Delete</Button>
+                    <Modal isOpen={isDelete}>
+                    <ModalHeader toggle={this.toggle}>Delete {timeEntry.name}</ModalHeader>
+                        <ModalBody>
+                            Are you sure you want to delete this time entry?
+                        </ModalBody>
+                        <ModalFooter>
+                            <Button color="danger" onClick={this.handleDeleteTimeEntry}>Delete</Button>
+                            <Button color="secondary" onClick={toggleDeleteTimeEntry}>Cancel</Button>
+                        </ModalFooter>
+                    </Modal>
+                </div>
             );
+        }
+
+        if (isDeleted) {
+            return <Redirect to='/' push={true} />
         }
 
         return <h1>Loading time entry, please wait</h1>
@@ -81,6 +109,27 @@ class EditTimeEntry extends Component {
         const payload = createTimeEntryPayload(values);
         updateTimeEntry(id, payload);
     }
+
+    toggleDeleteTimeEntry() {
+        const {
+            toggleDeleteTimeEntry
+        } = this.props;
+
+        toggleDeleteTimeEntry();
+    }
+
+    deleteTimeEntry() {
+        const {
+            match: {
+                params: {
+                    id
+                }
+            },
+            deleteTimeEntry
+        } = this.props;
+
+        deleteTimeEntry(id);
+    }
 }
 
 const mapStateToProps = (state) => {
@@ -89,6 +138,8 @@ const mapStateToProps = (state) => {
             timeEntry,
             getRequest,
             saveRequest,
+            isDelete,
+            deleted
         }
     } = state;
 
@@ -96,7 +147,9 @@ const mapStateToProps = (state) => {
         timeEntry,
         getRequest,
         saveRequest,
+        isDelete,
+        deleted
     };
 }
 
-export default connect(mapStateToProps, { getTimeEntryById, updateTimeEntry })(EditTimeEntry);
+export default connect(mapStateToProps, { getTimeEntryById, updateTimeEntry, toggleDeleteTimeEntry, deleteTimeEntry })(EditTimeEntry);
